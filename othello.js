@@ -52,7 +52,7 @@ class Othello {
     }
 
     otherPlayer(v) { 
-        if (v === 0) throw("Invalid player ID")
+        if (v === 0 || v > 2) throw("Invalid player ID")
         return v === 1 ? 2 : 1 
     }
     

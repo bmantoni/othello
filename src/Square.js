@@ -15,7 +15,7 @@ function Square(props) {
 
     return (
         <span className={`dot ${getBgClass()}`} onClick={(e) => 
-            tryPlacePiece(props.ownedBy, props.currentPlayer, props.piecePlaced, props.x, props.y)}>{props.ownedBy}</span>
+            tryPlacePiece(props.ownedBy, props.currentPlayer, props.piecePlaced, props.x, props.y)}></span>
     );
 }
 

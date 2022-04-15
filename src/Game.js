@@ -13,8 +13,11 @@ const DIRECTION = {
 
 class OthelloGame {
 
-    constructor(size) {
+    constructor(size, notifyWin) {
         this.SIZE = size
+        this.notifyWin = notifyWin
+
+        this.numPlaced = 0
         this.board = []
         this.createBoard()
     }
@@ -52,8 +55,32 @@ class OthelloGame {
     place(p, v) {
         if (!this.isEmpty(p)) throw("Spot is already taken")
         if (!this.isOnBoard(p)) throw("Out of bounds!")
+        
         this.set(p, v)
         this.doFlips(p, v)
+
+        this.checkForWin()
+    }
+
+    checkForWin() {
+        ++this.numPlaced
+        const totalSpots = Math.pow(this.SIZE, 2)
+
+        if (this.numPlaced >= totalSpots) {
+            console.log("Somebody won!")
+            const player1pieces = this.countPieces(1)
+            if (player1pieces > (totalSpots - player1pieces)) {
+                this.notifyWin(1)
+            } else if (player1pieces === totalSpots - player1pieces) {
+                this.notifyWin(0)
+            } else {
+                this.notifyWin(2)
+            }
+        }
+    }
+
+    countPieces(player) {
+        return this.board.reduce((p, q) => p.concat(q)).filter(p => p == player).length
     }
 
     doFlips(p, v) {

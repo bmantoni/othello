@@ -8,7 +8,7 @@ function Board(props) {
   const SIZE = 5;
 
   const [ currentPlayer, setCurrentPlayer ] = useState(1);
-  const [ game, setGame] = useState(new OthelloGame(SIZE));
+  const [ game, setGame] = useState(new OthelloGame(SIZE, onWin));
   //const game = new OthelloGame(SIZE);
 
   function togglePlayer() {
@@ -18,6 +18,14 @@ function Board(props) {
   function piecePlaced(x, y, player) {
     game.placeXY(x, y, player);
     togglePlayer();
+  }
+
+  function onWin(winner) {
+    if (winner === 0) {
+      alert("It's a draw!");
+    } else {
+      alert("Congratulations Player " + winner);
+    }
   }
 
   return (

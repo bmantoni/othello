@@ -2,7 +2,7 @@
 
 I started with a nodejs implementation of the game "engine" with no UI. Then added a React front-end on top of it. 
 
-![image](https://user-images.githubusercontent.com/620317/163602347-f6c72c0c-b3ab-4f22-b8ff-cbbf11ba1320.png)
+<img src="https://user-images.githubusercontent.com/620317/163602347-f6c72c0c-b3ab-4f22-b8ff-cbbf11ba1320.png" width="200" height="200" />
 
 ## To run
 

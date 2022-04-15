@@ -1,4 +1,6 @@
-DIRECTION = {
+import Point from './Point'
+
+const DIRECTION = {
     UP: [0, -1],
     DOWN: [0, 1],
     LEFT: [-1, 0],
@@ -9,30 +11,16 @@ DIRECTION = {
     DOWN_LEFT: [-1, 1]
 }
 
-class Point {
-    constructor(x, y) {
-        this.x = x
-        this.y = y
-    }
-    move(direction) {
-        this.x += direction[1]
-        this.y += direction[0]
-    }
-    copy() {
-        return new Point(this.x, this.y)
-    }
-}
+class OthelloGame {
 
-class Othello {
-    
-    SIZE = 6;
-
-    constructor() {
+    constructor(size) {
+        this.SIZE = size
         this.board = []
         this.createBoard()
     }
 
     createBoard() {
+        //console.log(`Creating a board of size ${this.SIZE}`)
         for (var x = 0; x < this.SIZE; ++x) {
             this.board[x] = new Array(this.SIZE)
             for (var y = 0; y < this.SIZE; ++y) {
@@ -43,6 +31,7 @@ class Othello {
 
     set(p, v) { this.board[p.x][p.y] = v }
 
+    getXY(x, y) { return this.get(new Point(x, y)) }
     get(p) { return this.board[p.x][p.y] }
     
     isEmpty(p) { return this.get(p) === 0 }
@@ -54,6 +43,10 @@ class Othello {
     otherPlayer(v) { 
         if (v === 0 || v > 2) throw("Invalid player ID")
         return v === 1 ? 2 : 1 
+    }
+
+    placeXY(x, y, player) {
+        this.place(new Point(x, y), player)
     }
     
     place(p, v) {
@@ -89,18 +82,4 @@ class Othello {
     }
 }
 
-let game = new Othello()
-game.place(new Point(1,1), 1)
-game.place(new Point(2,1), 2)
-game.place(new Point(3,1), 2)
-game.printBoard()
-game.place(new Point(4,1), 1)
-game.printBoard()
-game.place(new Point(4,2), 2)
-game.place(new Point(4,3), 2)
-game.printBoard()
-game.place(new Point(4,4), 1)
-game.printBoard()
-
-module.exports.Othello = Othello
-module.exports.Point = Point
+export default OthelloGame

@@ -6,7 +6,7 @@ const DIRECTION = {
     LEFT: [-1, 0],
     RIGHT: [1, 0],
     UP_RIGHT: [1, -1],
-    UP_LEFT: [-1 -1],
+    UP_LEFT: [-1, -1],
     DOWN_RIGHT: [1, 1],
     DOWN_LEFT: [-1, 1]
 }
@@ -89,11 +89,12 @@ class OthelloGame {
         }
     }
 
-    flipInDirection(p, d, v) {
+    flipInDirection(_p, d, v) {
+        var p = _p.copy()
         p.move(d)
         if (!this.isOnBoard(p) || this.isEmpty(p)) return false
         if (this.get(p) === this.otherPlayer(v)) {
-            var doFlip = this.flipInDirection(p.copy(), d, v)
+            var doFlip = this.flipInDirection(p, d, v)
             if (doFlip) {
                 this.set(p, v)
             }

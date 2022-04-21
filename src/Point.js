@@ -4,8 +4,8 @@ class Point {
         this.y = y
     }
     move(direction) {
-        this.x += direction[1]
-        this.y += direction[0]
+        this.x += direction[0]
+        this.y += direction[1]
     }
     copy() {
         return new Point(this.x, this.y)

@@ -5,11 +5,15 @@ import Square from './Square';
 
 function Board(props) {
 
-  const SIZE = 5;
+  const SIZE = 6;
 
   const [ currentPlayer, setCurrentPlayer ] = useState(1);
   const [ game, setGame] = useState(new OthelloGame(SIZE, onWin));
   //const game = new OthelloGame(SIZE);
+
+  function checkIfValidMove(x, y, player) {
+    return game.checkIfValidMove(x, y, player);
+  }
 
   function togglePlayer() {
     setCurrentPlayer(currentPlayer === 1 ? 2 : 1);
@@ -38,7 +42,8 @@ function Board(props) {
               x={x} y={y} 
               ownedBy={game.getXY(x, y)}
               currentPlayer={currentPlayer} 
-              piecePlaced={piecePlaced} /></td>
+              piecePlaced={piecePlaced}
+              checkIfValidMove={checkIfValidMove} /></td>
           )}
         </tr>
       )}

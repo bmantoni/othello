@@ -30,6 +30,11 @@ class OthelloGame {
                 this.board[x][y] = 0
             }
         }
+        //TODO make this dynamic based on SIZE
+        this.set(new Point(3, 3), 1)
+        this.set(new Point(2, 2), 1)
+        this.set(new Point(3, 2), 2)
+        this.set(new Point(2, 3), 2)
     }
 
     set(p, v) { this.board[p.x][p.y] = v }
@@ -51,13 +56,18 @@ class OthelloGame {
     placeXY(x, y, player) {
         this.place(new Point(x, y), player)
     }
+
+    checkIfValidMove(x, y, v) {
+        console.log("here")
+        return this.doFlips(new Point(x, y), v, true)
+    }
     
     place(p, v) {
         if (!this.isEmpty(p)) throw("Spot is already taken")
         if (!this.isOnBoard(p)) throw("Out of bounds!")
         
         this.set(p, v)
-        this.doFlips(p, v)
+        this.doFlips(p, v, false)
 
         this.checkForWin()
     }
@@ -83,24 +93,31 @@ class OthelloGame {
         return this.board.reduce((p, q) => p.concat(q)).filter(p => p == player).length
     }
 
-    doFlips(p, v) {
+    doFlips(p, v, justCheck) {
+        var anyFlipped = false
         for (const d in DIRECTION) {
-            this.flipInDirection(p, DIRECTION[d], v)
+            anyFlipped = this.flipInDirection(p, DIRECTION[d], v, 0, justCheck)
+            // if just checking, exit as soon as we find a flip
+            if (justCheck && anyFlipped) return true
         }
+        return false
     }
 
-    flipInDirection(_p, d, v) {
+    // Alway invoke with len=0 for first call.
+    // Recursive calls use it to track the length of a flip array
+    flipInDirection(_p, d, v, len, justCheck) {
         var p = _p.copy()
         p.move(d)
+        ++len
         if (!this.isOnBoard(p) || this.isEmpty(p)) return false
         if (this.get(p) === this.otherPlayer(v)) {
-            var doFlip = this.flipInDirection(p, d, v)
-            if (doFlip) {
+            var doFlip = this.flipInDirection(p, d, v, len, justCheck)
+            if (doFlip && !justCheck) {
                 this.set(p, v)
             }
             return doFlip
         } else {
-            return true
+            return len > 1
         }
     }
 
